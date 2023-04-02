@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        Hello World
+    </p>
+    <p>
+        <button id="print-token">Print Token</button>
+    </p>
+    <p>
+        <button id="update-token">Update Token</button>
+    </p>
+    <script src="http://localhost/keycloak/js/keycloak.js"></script>
+
+    <script>
+        let keycloak;
+
+        function initKeycloak() {
+            keycloak = new Keycloak({
+                url: 'http://localhost/keycloak',
+                realm: 'myrealm',
+                clientId: 'myclient',
+            });
+            keycloak.init(
+                {onLoad: 'login-required'}
+            )
+                .then(authenticated => {
+                    console.log(authenticated ? 'authenticated 🎉' : 'not authenticated');
+                })
+                .catch(e => {
+                    console.error('failed to initialize');
+                    console.error(e);
+                });
+        }
+
+        function printToken() {
+            console.log(keycloak.token);
+        }
+
+        function updateToken() {
+            keycloak.updateToken(30).then(refreshed => {
+                console.log('Token refreshed', refreshed);
+                printToken();
+            }).catch(e => {
+                console.error('Failed to refresh token');
+                console.error(e);
+            });
+        }
+
+        console.log('initKeycloak');
+        initKeycloak()
+
+        document.getElementById('print-token').addEventListener('click', printToken);
+        document.getElementById('update-token').addEventListener('click', updateToken);
+    </script>
+</body>
+</html>
