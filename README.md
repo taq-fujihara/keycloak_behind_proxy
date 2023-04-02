@@ -8,6 +8,13 @@
 docker compose up
 ```
 
+## Pages
+
+| url                         | description                                      |
+| --------------------------- | ------------------------------------------------ |
+| `http://localhost`          | A simple web page that is protected by keycloak. |
+| `http://localhost/keycloak` | Keycloak Admin Console                           |
+
 ## Containers
 
 ### `reverse_proxy`
@@ -16,13 +23,15 @@ This container is a reverse proxy for anything exposed to end users; `web` and `
 
 ### `web`
 
-This container is a simple web server that serves a static page. It is used to test login by keycloak login page.
+This container is a simple web server that serves a static page. It is used to test login via keycloak login page.
 
 ### `keycloak`
 
-This container is a keycloak server. It is configured to use a postgres database (`keycloak_postgres`). `myrealm` is imported from `keycloak_export/realm/myrealm.json` when the container is started.
+This container is a keycloak server. It is configured to use a postgres database (`keycloak_postgres`). `myrealm` will be imported from `keycloak_export/realm/myrealm.json` when the container is started.
 
 ### `pseudo_backend`
+
+This container is used to verify jwt that client web page receives from keycloak.
 
 ### `keycloak_postgres`
 

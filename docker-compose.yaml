@@ -20,8 +20,6 @@ services:
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:21.0.2
-    ports:
-    - "8080:8080"
     volumes:
       - ./keycloak_export/realm:/opt/keycloak/data/import:ro
     environment:
